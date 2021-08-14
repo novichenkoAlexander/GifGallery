@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/favoriteFragment">
+
+    <fragment
+        android:id="@+id/featuredFragment"
+        android:name="com.example.gifgallery.screens.FeaturedGifsFragment"
+        android:label="FeaturedGifsFragment"
+        tools:layout="@layout/featured_fragment" />
+
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.example.gifgallery.screens.FavoriteGifsFragment"
+        android:label="FavoriteGifsFragment"
+        tools:layout="@layout/favorite_fragment" />
+
+
+</navigation>
