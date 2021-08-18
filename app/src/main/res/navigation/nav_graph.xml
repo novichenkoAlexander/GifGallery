@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/featuredFragment"
-        android:name="com.example.gifgallery.screens.FeaturedGifsFragment"
+        android:name="com.example.gifgallery.screens.FeaturedFragment"
         android:label="FeaturedGifsFragment"
         tools:layout="@layout/featured_fragment" />
 
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.example.gifgallery.screens.FavoriteGifsFragment"
+        android:name="com.example.gifgallery.screens.FavoritesFragment"
         android:label="FavoriteGifsFragment"
         tools:layout="@layout/favorite_fragment" />
 
