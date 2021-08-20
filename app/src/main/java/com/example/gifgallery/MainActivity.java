@@ -23,4 +23,9 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(bottomNavigationView, navigationController);
         bottomNavigationView.setLabelVisibilityMode(NavigationBarView.LABEL_VISIBILITY_UNLABELED);
     }
+
+    @Override
+    public void onBackPressed() {
+        this.finish();
+    }
 }

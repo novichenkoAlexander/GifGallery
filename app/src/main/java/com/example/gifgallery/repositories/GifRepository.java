@@ -3,7 +3,7 @@ package com.example.gifgallery.repositories;
 
 import com.example.gifgallery.api.GiphyApiInterface;
 import com.example.gifgallery.api.dto.Gif;
-import com.example.gifgallery.network.NetworkService;
+import com.example.gifgallery.network.GiphyApiFactory;
 
 import java.util.List;
 
@@ -20,8 +20,8 @@ public class GifRepository {
 
     public Observable<List<Gif>> getTrendingGifsResponseObservable(int limit, int offset) {
 
-        apiInterface = NetworkService.getInstance().getNetworkClient();
-        trendingGifsResponseObservable = apiInterface.getTrendingGifs(NetworkService.API_KEY,
+        apiInterface = GiphyApiFactory.getInstance().getNetworkClient();
+        trendingGifsResponseObservable = apiInterface.getTrendingGifs(GiphyApiFactory.API_KEY,
                 limit, offset)
                 .map(result -> Observable.fromIterable(result.getListOfGifs()))
                 .flatMap(x -> x)

@@ -11,23 +11,23 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class NetworkService {
+public class GiphyApiFactory {
 
-    private static NetworkService mInstance;
+    private static GiphyApiFactory mInstance;
     private static final String BASE_URL = "https://api.giphy.com/v1/gifs/";
     public static final String API_KEY = "Cep1sfi5cG7WwyjEQi9ifoJ8CalT9Qvd";
     public static final int LIMIT = 4;
     public static final int OFFSET = 0;
     private final Retrofit retrofit;
 
-    public static NetworkService getInstance() {
+    public static GiphyApiFactory getInstance() {
         if (mInstance == null) {
-            mInstance = new NetworkService();
+            mInstance = new GiphyApiFactory();
         }
         return mInstance;
     }
 
-    private NetworkService() {
+    private GiphyApiFactory() {
 
         RxJava3CallAdapterFactory rxAdapter =
                 RxJava3CallAdapterFactory
