@@ -12,6 +12,12 @@
         tools:layout="@layout/featured_fragment" />
 
     <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.gifgallery.screens.SearchFragment"
+        android:label="SearchFragment"
+        tools:layout="@layout/search_fragment" />
+
+    <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.example.gifgallery.screens.FavoritesFragment"
         android:label="FavoriteGifsFragment"

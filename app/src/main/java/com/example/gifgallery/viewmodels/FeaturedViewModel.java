@@ -1,39 +1,30 @@
 package com.example.gifgallery.viewmodels;
 
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.gifgallery.api.dto.Gif;
-import com.example.gifgallery.repositories.NetworkRepository;
+import com.example.gifgallery.repositories.GifRepository;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.rxjava3.core.Observable;
 
 
 public class FeaturedViewModel extends ViewModel {
 
-    private NetworkRepository repository;
-    public MutableLiveData<List<Gif>> gifsLiveData = new MutableLiveData<>();
-
-    private final List<Gif> sumList = new ArrayList<>();
+    private Observable<List<Gif>> trendingGifsResponseObservable;
+    private final GifRepository repository;
 
     public FeaturedViewModel() {
-        repository = new NetworkRepository() {
-            @Override
-            public void handleErrors(Throwable throwable) {
-
-            }
-
-            @Override
-            public void handleResults(List<Gif> gifs) {
-                sumList.addAll(gifs);
-                gifsLiveData.postValue(sumList);
-            }
-        };
+        repository = new GifRepository();
     }
 
-    public void getTrendingGifs() {
-        repository.getFeatured();
+    public void getTrendingGifs(int limit, int offset) {
+        trendingGifsResponseObservable = repository.getTrendingGifsResponseObservable(limit, offset);
+    }
+
+    public Observable<List<Gif>> getTrendingGifsResponseObservable() {
+        return trendingGifsResponseObservable;
     }
 
 }

@@ -6,7 +6,6 @@ import com.google.gson.GsonBuilder;
 
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
@@ -37,14 +36,8 @@ public class NetworkService {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient.Builder client = new OkHttpClient.Builder()
-                .addInterceptor(interceptor)
-                .addInterceptor(chain -> {
-                    Request newRequest = chain.request().newBuilder()
-                            .build();
-
-                    return chain.proceed(newRequest);
-                });
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor).build();
 
         Gson gson = new GsonBuilder()
                 .setLenient()
@@ -54,7 +47,7 @@ public class NetworkService {
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(rxAdapter)
-                .client(client.build())
+                .client(client)
                 .build();
     }
 

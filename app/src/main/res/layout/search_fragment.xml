@@ -5,15 +5,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="4dp"
+        android:elevation="4dp"
+        android:focusable="false"
+        android:background="@drawable/search_shape"
+        app:iconifiedByDefault="false"
+        app:layout_constraintBottom_toTopOf="@id/searchRecycler"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:queryHint="Search Gifs"
+        app:theme="@style/SearchViewStyle" />
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvGifs"
+        android:id="@+id/searchRecycler"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search"
         tools:listitem="@layout/gif_list_item" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
