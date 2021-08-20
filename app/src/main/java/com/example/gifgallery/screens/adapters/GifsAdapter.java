@@ -1,6 +1,7 @@
 package com.example.gifgallery.screens.adapters;
 
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +21,12 @@ public class GifsAdapter extends RecyclerView.Adapter<GifsAdapter.ItemViewHolder
 
 
     private final List<Gif> gifs;
+    private final Context context;
     private OnLoadMoreListener loadMoreListener;
 
-    public GifsAdapter(List<Gif> gifs) {
+    public GifsAdapter(List<Gif> gifs, Context context) {
         this.gifs = gifs;
+        this.context = context;
     }
 
     @NonNull
@@ -65,19 +68,36 @@ public class GifsAdapter extends RecyclerView.Adapter<GifsAdapter.ItemViewHolder
         return gifs.size();
     }
 
-    static class ItemViewHolder extends RecyclerView.ViewHolder {
+    static class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
 
-        private final ImageView imageView;
+        private final ImageView gifImageView;
+        private final ImageView favoriteFlagImageView;
+        private int clickCounter = 0;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.ivGif);
+            itemView.setOnLongClickListener(this);
+            gifImageView = itemView.findViewById(R.id.ivGif);
+            favoriteFlagImageView = itemView.findViewById(R.id.ivFavorite);
         }
 
         void bind(String url) {
             Glide.with(itemView.getContext())
                     .load(url)
-                    .into(imageView);
+                    .placeholder(R.drawable.ic_loading)
+                    .into(gifImageView);
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            if (clickCounter == 0) {
+                favoriteFlagImageView.setVisibility(View.VISIBLE);
+                clickCounter++;
+            } else if (clickCounter == 1) {
+                favoriteFlagImageView.setVisibility(View.GONE);
+                clickCounter = 0;
+            }
+            return true;
         }
     }
 }

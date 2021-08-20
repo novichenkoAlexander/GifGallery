@@ -11,21 +11,24 @@ import io.reactivex.rxjava3.core.Observable;
 
 public class GifRepository {
 
-    private GiphyApiInterface apiInterface;
-    private Observable<List<Gif>> trendingGifsResponseObservable;
+    private final GiphyApiInterface apiInterface;
 
     public GifRepository() {
-
+        apiInterface = GiphyApiFactory.getInstance().getNetworkClient();
     }
 
     public Observable<List<Gif>> getTrendingGifsResponseObservable(int limit, int offset) {
-
-        apiInterface = GiphyApiFactory.getInstance().getNetworkClient();
-        trendingGifsResponseObservable = apiInterface.getTrendingGifs(GiphyApiFactory.API_KEY,
+        return apiInterface.getTrendingGifs(GiphyApiFactory.API_KEY,
                 limit, offset)
                 .map(result -> Observable.fromIterable(result.getListOfGifs()))
                 .flatMap(x -> x)
                 .toList().toObservable();
-        return trendingGifsResponseObservable;
+    }
+
+    public Observable<List<Gif>> getSearchObservable(String query, int limit, int offset) {
+        return apiInterface.searchGifs(GiphyApiFactory.API_KEY, query, limit, offset)
+                .map(searchResult -> Observable.fromIterable(searchResult.getListOfGifs()))
+                .flatMap(x -> x)
+                .toList().toObservable();
     }
 }

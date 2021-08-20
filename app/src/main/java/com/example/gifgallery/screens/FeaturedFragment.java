@@ -34,7 +34,7 @@ public class FeaturedFragment extends Fragment {
 
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    private final int limit = 10;
+    private final int limit = 20;
     private int offset = 0;
 
 
@@ -52,7 +52,7 @@ public class FeaturedFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel.getTrendingGifs(4, 0);
+        viewModel.getTrendingGifs(limit, offset);
 
         Observable<List<Gif>> initialGifsObservable = viewModel.getTrendingGifsResponseObservable();
 
@@ -70,7 +70,7 @@ public class FeaturedFragment extends Fragment {
             @Override
             public void onNext(@io.reactivex.rxjava3.annotations.NonNull List<Gif> gifList) {
                 Log.d("InitialObserver", "onNext");
-                gifsAdapter = new GifsAdapter(gifList);
+                gifsAdapter = new GifsAdapter(gifList, requireContext());
                 gifsAdapter.setLoadMoreListener(() -> {
                     offset += limit;
                     loadMoreGifs();

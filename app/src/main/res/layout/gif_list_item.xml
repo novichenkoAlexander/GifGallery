@@ -7,11 +7,9 @@
     app:cardCornerRadius="8dp">
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="0dp"
-        android:layout_height="300dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
         android:layout_margin="4dp"
-        android:maxHeight="300dp"
-        android:minHeight="200dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,13 +22,23 @@
 
             <ImageView
                 android:id="@+id/ivGif"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:background="@color/black" />
+
+            <ImageView
+                android:id="@+id/ivFavorite"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="8dp"
+                android:src="@drawable/ic_favorite_colored"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>

@@ -16,8 +16,6 @@ public class GiphyApiFactory {
     private static GiphyApiFactory mInstance;
     private static final String BASE_URL = "https://api.giphy.com/v1/gifs/";
     public static final String API_KEY = "Cep1sfi5cG7WwyjEQi9ifoJ8CalT9Qvd";
-    public static final int LIMIT = 4;
-    public static final int OFFSET = 0;
     private final Retrofit retrofit;
 
     public static GiphyApiFactory getInstance() {
