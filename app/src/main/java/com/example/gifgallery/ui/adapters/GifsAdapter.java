@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,7 +15,6 @@ import com.example.gifgallery.R;
 import com.example.gifgallery.api.dto.Gif;
 import com.example.gifgallery.api.dto.GifImage;
 import com.example.gifgallery.api.dto.Images;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -99,7 +99,7 @@ public class GifsAdapter extends RecyclerView.Adapter<GifsAdapter.ItemViewHolder
         @Override
         public boolean onLongClick(View v) {
             longItemClickListener.onLongItemClick(v, this.getAdapterPosition());
-            Snackbar.make(v, "Added to Favorite", Snackbar.LENGTH_SHORT).show();
+            Toast.makeText(v.getContext(), "Added to Favorite", Toast.LENGTH_SHORT).show();
             return true;
         }
     }
