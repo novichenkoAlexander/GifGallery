@@ -1,6 +1,5 @@
-package com.example.gifgallery.network;
+package com.example.gifgallery.api;
 
-import com.example.gifgallery.api.GiphyApiInterface;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

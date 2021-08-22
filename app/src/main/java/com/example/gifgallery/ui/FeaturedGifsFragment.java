@@ -1,4 +1,4 @@
-package com.example.gifgallery.screens;
+package com.example.gifgallery.ui;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -12,8 +12,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.gifgallery.api.dto.Gif;
+import com.example.gifgallery.api.dto.GifImage;
 import com.example.gifgallery.databinding.FeaturedFragmentBinding;
-import com.example.gifgallery.screens.adapters.GifsAdapter;
+import com.example.gifgallery.ui.adapters.GifsAdapter;
 import com.example.gifgallery.viewmodels.FeaturedViewModel;
 
 import java.util.List;
@@ -25,7 +26,7 @@ import io.reactivex.rxjava3.observers.DisposableObserver;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 
-public class FeaturedFragment extends Fragment {
+public class FeaturedGifsFragment extends Fragment {
 
     private FeaturedViewModel viewModel;
     private FeaturedFragmentBinding viewBinding;
@@ -36,6 +37,8 @@ public class FeaturedFragment extends Fragment {
 
     private final int limit = 20;
     private int offset = 0;
+
+    private final String TAG = getClass().getName();
 
 
     @Nullable
@@ -52,9 +55,7 @@ public class FeaturedFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel.getTrendingGifs(limit, offset);
-
-        Observable<List<Gif>> initialGifsObservable = viewModel.getTrendingGifsResponseObservable();
+        Observable<List<Gif>> initialGifsObservable = viewModel.getTrendingGifs(limit, offset);
 
         DisposableObserver<List<Gif>> initialObserver = getInitialObserver();
         compositeDisposable.add(initialObserver);
@@ -69,8 +70,12 @@ public class FeaturedFragment extends Fragment {
         return new DisposableObserver<List<Gif>>() {
             @Override
             public void onNext(@io.reactivex.rxjava3.annotations.NonNull List<Gif> gifList) {
-                Log.d("InitialObserver", "onNext");
-                gifsAdapter = new GifsAdapter(gifList, requireContext());
+                Log.d(TAG + " InitialObserver", "onNext");
+                gifsAdapter = new GifsAdapter(gifList);
+                gifsAdapter.setOnLongItemClickListener((v, position) -> {
+                    GifImage gifImage = gifsAdapter.getGifImageByPosition(position);
+                    viewModel.addGifImageToDatabase(gifImage);
+                });
                 gifsAdapter.setLoadMoreListener(() -> {
                     offset += limit;
                     loadMoreGifs();
@@ -80,12 +85,12 @@ public class FeaturedFragment extends Fragment {
 
             @Override
             public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
-
+                Log.d(TAG + " InitialObserver", "onError");
             }
 
             @Override
             public void onComplete() {
-                Log.d("InitialObserver", "onComplete");
+                Log.d(TAG + "InitialObserver", "onComplete");
             }
         };
     }
@@ -97,8 +102,7 @@ public class FeaturedFragment extends Fragment {
         DisposableObserver<List<Gif>> loadAfterObserver = getLoadAfterObserver();
         compositeDisposable.add(loadAfterObserver);
 
-        viewModel.getTrendingGifs(limit, offset);
-        Observable<List<Gif>> loadAfterObservable = viewModel.getTrendingGifsResponseObservable();
+        Observable<List<Gif>> loadAfterObservable = viewModel.getTrendingGifs(limit, offset);
         loadAfterObservable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -109,18 +113,18 @@ public class FeaturedFragment extends Fragment {
         return new DisposableObserver<List<Gif>>() {
             @Override
             public void onNext(@io.reactivex.rxjava3.annotations.NonNull List<Gif> gifList) {
-                Log.d("LoadAfterObserver", "onNExt");
+                Log.d(TAG + " LoadAfterObserver", "onNExt");
                 gifsAdapter.addGifs(gifList);
             }
 
             @Override
             public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
-
+                Log.d(TAG + " LoadAfterObserver", "onError");
             }
 
             @Override
             public void onComplete() {
-                Log.d("LoadAfterObserver", "onComplete");
+                Log.d(TAG + " LoadAfterObserver", "onComplete");
             }
         };
     }

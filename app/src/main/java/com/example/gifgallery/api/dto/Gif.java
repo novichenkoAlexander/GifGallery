@@ -18,4 +18,8 @@ public class Gif {
     public Images getImages() {
         return images;
     }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

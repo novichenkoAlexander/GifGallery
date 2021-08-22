@@ -1,8 +1,10 @@
 package com.example.gifgallery.viewmodels;
 
+
 import androidx.lifecycle.ViewModel;
 
 import com.example.gifgallery.api.dto.Gif;
+import com.example.gifgallery.api.dto.GifImage;
 import com.example.gifgallery.repositories.GifRepository;
 
 import java.util.List;
@@ -24,5 +26,9 @@ public class SearchViewModel extends ViewModel {
 
     public Observable<List<Gif>> getSearchGifsObservable() {
         return searchGifsObservable;
+    }
+
+    public void saveGifImageToDatabase(GifImage gifImage) {
+        repository.addGifImageToDatabase(gifImage);
     }
 }
