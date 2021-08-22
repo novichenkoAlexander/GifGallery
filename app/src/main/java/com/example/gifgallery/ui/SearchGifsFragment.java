@@ -32,7 +32,7 @@ public class SearchGifsFragment extends Fragment {
     private SearchViewModel viewModel;
     private GifsAdapter gifsAdapter;
 
-    private final int limit = 20;
+    private final int limit = 4;
     private int offset = 0;
     private String searchQuery;
 
@@ -65,6 +65,13 @@ public class SearchGifsFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
+            }
+        });
+
+        viewBinding.imgBtnSearch.setOnClickListener(v -> {
+            searchQuery = viewBinding.search.getQuery().toString();
+            if (!searchQuery.isEmpty()) {
+                searchGifs();
             }
         });
 
