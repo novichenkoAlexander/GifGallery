@@ -1,0 +1,7 @@
+#GifGallery
+
+This application made to display gifs from https://giphy.com/.
+
+Also there is an ability to search gifs and to add it to favorites.
+
+Adding gif to the favorites list is implemented by long pressing.
