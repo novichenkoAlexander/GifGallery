@@ -14,9 +14,9 @@ import io.reactivex.rxjava3.core.Single;
 @Dao
 public abstract class GifImageDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     public abstract void addGifImageToDatabase(GifImage gifImage);
 
-    @Query("SELECT * FROM gifs ORDER BY id ASC")
+    @Query("SELECT * FROM gifs ORDER BY url ASC")
     public abstract Single<List<GifImage>> getFavoriteGifs();
 }

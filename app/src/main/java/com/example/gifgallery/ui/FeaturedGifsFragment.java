@@ -1,5 +1,6 @@
 package com.example.gifgallery.ui;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -68,17 +70,16 @@ public class FeaturedGifsFragment extends Fragment {
 
     private DisposableObserver<List<Gif>> getInitialObserver() {
         return new DisposableObserver<List<Gif>>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onNext(@io.reactivex.rxjava3.annotations.NonNull List<Gif> gifList) {
                 Log.d(TAG + " InitialObserver", "onNext");
-                gifsAdapter = new GifsAdapter(gifList);
-                gifsAdapter.setOnLongItemClickListener((v, position) -> {
-                    GifImage gifImage = gifsAdapter.getGifImageByPosition(position);
-                    viewModel.addGifImageToDatabase(gifImage);
-                });
-                gifsAdapter.setLoadMoreListener(() -> {
+                gifsAdapter = new GifsAdapter(gifList, () -> {
                     offset += limit;
                     loadMoreGifs();
+                }, (position) -> {
+                    GifImage gifImage = gifsAdapter.getGifImageByPosition(position);
+                    viewModel.addGifImageToDatabase(gifImage);
                 });
                 viewBinding.rvGifs.setAdapter(gifsAdapter);
             }
