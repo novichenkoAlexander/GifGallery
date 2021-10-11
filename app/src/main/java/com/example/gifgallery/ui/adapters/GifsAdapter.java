@@ -17,21 +17,27 @@ import com.example.gifgallery.R;
 import com.example.gifgallery.api.dto.Gif;
 import com.example.gifgallery.api.dto.GifImage;
 import com.example.gifgallery.api.dto.Images;
+import com.example.gifgallery.ui.FavoriteGifsFragment;
 
 import java.util.List;
 import java.util.function.Consumer;
 
 public class GifsAdapter extends RecyclerView.Adapter<GifsAdapter.ItemViewHolder> {
 
-    private final List<Gif> gifs;
-    private final Runnable runnable;
-    private final Consumer<Integer> consumer;
+    private List<Gif> gifs;
+    private List<GifImage> gifImages;
+    private Runnable runnable;
+    private Consumer<Integer> consumer;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public GifsAdapter(List<Gif> gifs, Runnable runnable, Consumer<Integer> consumer) {
         this.gifs = gifs;
         this.runnable = runnable;
         this.consumer = consumer;
+    }
+
+    public GifsAdapter(List<GifImage> gifImages) {
+        this.gifImages = gifImages;
     }
 
     @NonNull
@@ -43,6 +49,8 @@ public class GifsAdapter extends RecyclerView.Adapter<GifsAdapter.ItemViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
+
+        //TODO: make possible to bind elements in favorite fragment using one adapter
         final Gif gif = gifs.get(position);
         if (gif == null) return;
         final Images images = gif.getImages();

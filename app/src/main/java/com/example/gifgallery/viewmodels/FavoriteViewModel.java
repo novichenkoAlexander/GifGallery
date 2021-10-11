@@ -20,4 +20,9 @@ public class FavoriteViewModel extends ViewModel {
     public Single<List<GifImage>> getGifImageSingle() {
         return repository.getFavoritesGifsFromDatabase();
     }
+
+    public void deleteGifWithUndo(GifImage gifImage) {
+        gifImage.setDeleted(true);
+        repository.updateGifImage(gifImage);
+    }
 }

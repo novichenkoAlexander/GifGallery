@@ -46,4 +46,9 @@ public class GifRepository {
     public Single<List<GifImage>> getFavoritesGifsFromDatabase() {
         return gifImageDao.getFavoriteGifs();
     }
+
+    public void updateGifImage(GifImage image) {
+        GifGalleryDatabase.databaseWriteExecutor.execute(() -> gifImageDao.updateGif(image));
+    }
+
 }

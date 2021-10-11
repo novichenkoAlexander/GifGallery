@@ -10,10 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gifgallery.api.dto.GifImage;
 import com.example.gifgallery.databinding.FavoriteFragmentBinding;
 import com.example.gifgallery.ui.adapters.FavoriteGifsAdapter;
+import com.example.gifgallery.ui.adapters.GifsAdapter;
 import com.example.gifgallery.viewmodels.FavoriteViewModel;
 
 import java.util.List;
@@ -29,7 +32,7 @@ public class FavoriteGifsFragment extends Fragment {
     private FavoriteViewModel viewModel;
     private FavoriteFragmentBinding viewBinding;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
-    private FavoriteGifsAdapter adapter;
+    private GifsAdapter adapter;
 
 
     @Nullable
@@ -54,6 +57,20 @@ public class FavoriteGifsFragment extends Fragment {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(single);
+
+        ItemTouchHelper touchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                GifImage gifImage = adapter.getGifImageByPosition(viewHolder.getAdapterPosition());
+                viewModel.deleteGifWithUndo(gifImage);
+            }
+        });
+        touchHelper.attachToRecyclerView(viewBinding.rvGifs);
     }
 
     private DisposableSingleObserver<List<GifImage>> getSingle() {
@@ -61,7 +78,7 @@ public class FavoriteGifsFragment extends Fragment {
             @Override
             public void onSuccess(@io.reactivex.rxjava3.annotations.NonNull List<GifImage> gifImages) {
                 Log.d(getClass().getName(), "onSuccess");
-                adapter = new FavoriteGifsAdapter(gifImages);
+                adapter = new GifsAdapter(gifImages);
                 viewBinding.rvGifs.setAdapter(adapter);
             }
 

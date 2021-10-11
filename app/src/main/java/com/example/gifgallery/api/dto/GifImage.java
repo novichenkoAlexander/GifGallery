@@ -33,6 +33,16 @@ public class GifImage {
 //        this.id = id;
 //    }
 
+    private boolean isDeleted;
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
     public String getGifUrl() {
         return gifUrl;
     }
