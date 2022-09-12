@@ -25,4 +25,4 @@ public class FavoriteViewModel extends ViewModel {
         gifImage.setDeleted(true);
         repository.updateGifImage(gifImage);
     }
-}
+}asdasd
